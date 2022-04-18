@@ -46,6 +46,14 @@ void print_patient() {
         }
     }
 }
+void shift_left(int spec_pos, auto names[], auto status[]){
+    int length = hospital_spec[spec_pos].queue_length;
+    for (int i = 2; i <= length ; ++i) {
+        names[i-1] = names[i];
+        status[i-1] = status[i];
+    }
+    hospital_spec[spec_pos].queue_length--;
+}
 
 void shift_right(int spec_pos, auto names[], auto status[]){
     int length = hospital_spec[spec_pos].queue_length;
@@ -81,7 +89,20 @@ bool add_patient() {
     }
     return true;
 }
+void get_next_patients() {
+    cout << "Enter specialization: ";
+    int spec_pos; cin >> spec_pos;
+    int length = hospital_spec[spec_pos].queue_length;
 
+    if (length == 0){
+        cout << "No patients at the moment. Have rest, Dr\n";
+        return;
+    }
+    // Let patient goes to doctor
+    cout << hospital_spec[spec_pos].name[1] << " please go with the Dr\n";
+
+    shift_left(spec_pos, hospital_spec[spec_pos].name, hospital_spec[spec_pos].status);
+}
 
 void system() {
     while (true) {
@@ -91,6 +112,10 @@ void system() {
             add_patient();
         else if (choice == 2)
             print_patient();
+        else if(choice == 3)
+            get_next_patients();
+        else
+            break;
     }
 }
 
