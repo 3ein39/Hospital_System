@@ -38,8 +38,8 @@ void print_patient() {
                 int positiom = hospital_spec[spec].queue_length;
                 cout << name << " regular" << endl;
             }
+            cout << endl;
         }
-        cout << endl;
     }
 }
 
@@ -50,7 +50,7 @@ bool add_patient() {
     int spec_pos;
     cin >> spec_pos >> name >> status;
 
-    int pos = hospital_spec[spec_pos].queue_length;
+    int pos = hospital_spec[spec_pos].queue_length +1;
     if (pos >=  MAX_QUEUE) {
         cout << "Sorry we can't add more patients for this specialization\n";
         return false;
