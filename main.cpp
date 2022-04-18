@@ -35,12 +35,25 @@ void print_patient() {
             cout << "There are " << len << " patients in specialization " << spec << endl;
             for (int person = 1; person <= len ; ++person) {
                 string name = hospital_spec[spec].name[person];
-                int positiom = hospital_spec[spec].queue_length;
-                cout << name << " regular" << endl;
+              //  int positiom = hospital_spec[spec].queue_length;
+                cout << name << " ";
+                if(hospital_spec[spec].status[person])
+                    cout << "urgent\n";
+                else
+                    cout << "regular\n";
             }
             cout << endl;
         }
     }
+}
+
+void shift_right(int spec_pos, auto names[], auto status[]){
+    int length = hospital_spec[spec_pos].queue_length;
+    for(int i = length; i >= 1; --i){
+        names[i+1] = names[i];
+        status[i+1] = status[i];
+    }
+    hospital_spec[spec_pos].queue_length++;
 }
 
 bool add_patient() {
@@ -60,6 +73,11 @@ bool add_patient() {
         hospital_spec[spec_pos].name[pos] = name;
         hospital_spec[spec_pos].status[pos] = status;
         hospital_spec[spec_pos].queue_length++;
+    }
+    else {
+        shift_right(spec_pos, hospital_spec[spec_pos].name, hospital_spec[spec_pos].status);
+        hospital_spec[spec_pos].name[1] = name;
+        hospital_spec[spec_pos].status[1] = status;
     }
     return true;
 }
